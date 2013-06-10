@@ -179,4 +179,12 @@ class CoinHeap implements CoinHeapInterface {
 
         return $result;
     }
+
+    public function getAll()
+    {
+        $result = $this->_coins;
+        $this->_coins = array();
+
+        return $result;
+    }
 }

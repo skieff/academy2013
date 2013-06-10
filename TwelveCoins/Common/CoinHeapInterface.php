@@ -19,6 +19,8 @@ interface CoinHeapInterface {
 
     public function getFake($amount);
 
+    public function getAll();
+
     public function markAsReal();
 
     public function markAsFake();
