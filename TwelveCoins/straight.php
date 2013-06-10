@@ -58,4 +58,22 @@ if (compare($Heap1L, $Heap1R) === 0) {
             print_r($Heap4L->getIds());
         }
     }
+} else {
+    $Heap1->markAsReal();
+    if (compare($Heap1L, $Heap1R) < 0) {
+        $Heap1L->markAsLight();
+        $Heap1R->markAsHeavy();
+    } else {
+        $Heap1L->markAsHeavy();
+        $Heap1R->markAsLight();
+    }
+    $tmpHeap = new CoinHeap(array_merge($Heap1L->getAll(), $Heap1R->getAll()));
+
+    $heap20L = new CoinHeap(array_merge($tmpHeap->getHeavy(2), $tmpHeap->getLight(1)));
+    $heap20R = new CoinHeap(array_merge($tmpHeap->getHeavy(1), $tmpHeap->getLight(1), $Heap1->getReal(1)));
+    $heap20  = new CoinHeap(array_merge($tmpHeap->getHeavy(1), $tmpHeap->getLight(2)));
+
+    if (compare($heap20L, $heap20R) === 0) {
+
+    }
 }
