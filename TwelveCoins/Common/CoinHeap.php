@@ -9,6 +9,15 @@ class CoinHeap implements CoinHeapInterface {
      */
     protected $_coins = array();
 
+    /**
+     * @param CoinInterface[] $coins
+     */
+    function __construct($coins = array())
+    {
+        $this->addCoins($coins);
+    }
+
+
     public function getWeight()
     {
         $result = 0;
@@ -24,9 +33,10 @@ class CoinHeap implements CoinHeapInterface {
     {
         $result = array();
 
-        foreach ($this->_getCoins() as $coin) {
+        foreach ($this->_coins as $key => $coin) {
             if (!$coin->isChecked()) {
                 $result[] = $coin;
+                unset($this->_coins[$key]);
             }
         }
 
@@ -34,6 +44,7 @@ class CoinHeap implements CoinHeapInterface {
             throw new Exception('Not enough');
         }
 
+        $this->addCoins(array_slice($result, $amount));
         return array_slice($result, 0, $amount);
     }
 
@@ -41,9 +52,10 @@ class CoinHeap implements CoinHeapInterface {
     {
         $result = array();
 
-        foreach ($this->_getCoins() as $coin) {
-            if (!$coin->isLight()) {
+        foreach ($this->_coins as $key => $coin) {
+            if ($coin->isLight()) {
                 $result[] = $coin;
+                unset($this->_coins[$key]);
             }
         }
 
@@ -51,6 +63,7 @@ class CoinHeap implements CoinHeapInterface {
             throw new Exception('Not enough');
         }
 
+        $this->addCoins(array_slice($result, $amount));
         return array_slice($result, 0, $amount);
     }
 
@@ -58,9 +71,10 @@ class CoinHeap implements CoinHeapInterface {
     {
         $result = array();
 
-        foreach ($this->_getCoins() as $coin) {
-            if (!$coin->isHeavy()) {
+        foreach ($this->_coins as $key => $coin) {
+            if ($coin->isHeavy()) {
                 $result[] = $coin;
+                unset($this->_coins[$key]);
             }
         }
 
@@ -68,6 +82,7 @@ class CoinHeap implements CoinHeapInterface {
             throw new Exception('Not enough');
         }
 
+        $this->addCoins(array_slice($result, $amount));
         return array_slice($result, 0, $amount);
     }
 
@@ -75,9 +90,10 @@ class CoinHeap implements CoinHeapInterface {
     {
         $result = array();
 
-        foreach ($this->_getCoins() as $coin) {
-            if (!$coin->isReal()) {
+        foreach ($this->_coins as $key => $coin) {
+            if ($coin->isReal()) {
                 $result[] = $coin;
+                unset($this->_coins[$key]);
             }
         }
 
@@ -85,6 +101,7 @@ class CoinHeap implements CoinHeapInterface {
             throw new Exception('Not enough');
         }
 
+        $this->addCoins(array_slice($result, $amount));
         return array_slice($result, 0, $amount);
     }
 
@@ -92,9 +109,10 @@ class CoinHeap implements CoinHeapInterface {
     {
         $result = array();
 
-        foreach ($this->_getCoins() as $coin) {
-            if (!$coin->isFake()) {
+        foreach ($this->_coins as $key => $coin) {
+            if ($coin->isFake()) {
                 $result[] = $coin;
+                unset($this->_coins[$key]);
             }
         }
 
@@ -102,6 +120,7 @@ class CoinHeap implements CoinHeapInterface {
             throw new Exception('Not enough');
         }
 
+        $this->addCoins(array_slice($result, $amount));
         return array_slice($result, 0, $amount);
     }
 
@@ -148,5 +167,16 @@ class CoinHeap implements CoinHeapInterface {
     protected function _getCoins()
     {
         return $this->_coins;
+    }
+
+    public function getIds()
+    {
+        $result = array();
+
+        foreach ($this->_coins as $coin) {
+            $result[] = $coin->getId();
+        }
+
+        return $result;
     }
 }

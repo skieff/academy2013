@@ -2,7 +2,7 @@
 
 require_once 'CoinInterface.php';
 
-class Coin implements CoinInterface {
+abstract class Coin implements CoinInterface {
     const UNCHECKED = 0;
     const REAL = 10;
     const HEAVY = 5;
@@ -15,8 +15,11 @@ class Coin implements CoinInterface {
 
     protected $_realState;
 
-    function __construct($state = static::UNCHECKED, $weight = 10)
+    protected $_id;
+
+    function __construct($id, $weight = 10, $state = 0)
     {
+        $this->_setId($id);
         $this->_setState($state);
         $this->_setWeight($weight);
     }
@@ -117,5 +120,37 @@ class Coin implements CoinInterface {
     public function isLight()
     {
         return $this->_getState() === static::LIGHT;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->_id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    protected function _setId($id)
+    {
+        $this->_id = $id;
+    }
+}
+
+class RealCoin extends Coin {
+    function __construct($id, $weight = 10, $state = 0)
+    {
+        parent::__construct($id, $weight, $state);
+        $this->_realState = static::REAL;
+    }
+}
+
+class FakeCoin extends Coin {
+    function __construct($id, $weight = 10, $state = 0)
+    {
+        parent::__construct($id, $weight, $state);
+        $this->_realState = static::FAKE;
     }
 }

@@ -3,6 +3,8 @@
 interface CoinInterface {
     public function getWeight();
 
+    public function getId();
+
     public function markAsReal();
     public function markAsFake();
     public function markAsHeavy();

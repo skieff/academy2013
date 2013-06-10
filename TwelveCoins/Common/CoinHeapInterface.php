@@ -26,4 +26,6 @@ interface CoinHeapInterface {
     public function markAsLight();
 
     public function markAsHeavy();
+
+    public function getIds();
 }
